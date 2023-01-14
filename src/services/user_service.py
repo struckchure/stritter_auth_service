@@ -29,14 +29,16 @@ class UserService:
         except Exception as error:
             raise HTTPException(status_code=400, detail=str(error))
 
-        return {
-            "id": uuid.UUID("{%s}" % user.id),
-            "first_name": str(user.first_name),
-            "last_name": str(user.last_name),
-            "username": str(user.username),
-            "email": str(user.email),
-            "tokens": Token.generate_token({"user_id": str(user.id)}),
-        }
+        return UserObject(
+            **{
+                "id": user.id,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "username": user.username,
+                "email": user.email,
+                "tokens": Token.generate_token({"user_id": str(user.id)}),
+            }
+        )
 
     @staticmethod
     def login_user(username: str, password: str) -> UserObject:
@@ -48,27 +50,31 @@ class UserService:
         if not Encryption.check_password(password, str(user.password)):
             raise HTTPException(status_code=403, detail="Invalid credentials")
 
-        return {
-            "id": uuid.UUID("{%s}" % user.id),
-            "first_name": str(user.first_name),
-            "last_name": str(user.last_name),
-            "username": str(user.username),
-            "email": str(user.email),
-            "tokens": Token.generate_token({"user_id": str(user.id)}),
-        }
+        return UserObject(
+            **{
+                "id": user.id,
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "username": user.username,
+                "email": user.email,
+                "tokens": Token.generate_token({"user_id": str(user.id)}),
+            }
+        )
 
     @staticmethod
     def get_user(user_id: uuid.UUID) -> UserObject:
         try:
             user = UserDAO.get_user(user_id=user_id)
 
-            return {
-                "id": uuid.UUID("{%s}" % user.id),
-                "first_name": str(user.first_name),
-                "last_name": str(user.last_name),
-                "username": str(user.username),
-                "email": str(user.email),
-            }
+            return UserObject(
+                **{
+                    "id": user.id,
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    "username": user.username,
+                    "email": user.email,
+                }
+            )
         except Exception as error:
             raise HTTPException(status_code=403, detail=str(error))
 
@@ -95,12 +101,15 @@ class UserService:
 
             user = UserDAO.get_user(user_id=user_id)
 
-            return {
-                "id": uuid.UUID("{%s}" % user.id),
-                "first_name": str(user.first_name),
-                "last_name": str(user.last_name),
-                "username": str(user.username),
-                "email": str(user.email),
-            }
+            return UserObject(
+                **{
+                    "id": user.id,
+                    "first_name": user.first_name,
+                    "last_name": user.last_name,
+                    "username": user.username,
+                    "email": user.email,
+                    "tokens": Token.generate_token({"user_id": str(user.id)}),
+                }
+            )
         except Exception as error:
             raise HTTPException(status_code=403, detail=str(error))
