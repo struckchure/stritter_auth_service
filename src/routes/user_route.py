@@ -22,14 +22,14 @@ def login_user_api(user_creds: UserLoginProps) -> UserObject:
     return UserService.login_user(**user_creds.dict(exclude_none=True))
 
 
-@router.get("/profile")
+@router.get("/profile/")
 def get_user_profile_api(
     commons: CommonHeaderProps = Depends(common_headers),
 ) -> UserObject:
     return UserService.get_user(user_id=commons.user_id)
 
 
-@router.put("/profile")
+@router.put("/profile/")
 def update_user_profile_api(
     user_data: UserUpdateProps, commons: CommonHeaderProps = Depends(common_headers)
 ) -> UserObject:
