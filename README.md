@@ -9,7 +9,7 @@ $ docker-compose build --force-rm
 $ docker-compose up --force-recreate
 ```
 
-Default ports exposed
+Default ports
 
 - `5432` (Postgres)
 - `8000` (FastAPi) - Default, otherwise specified
