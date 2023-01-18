@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends
+import uuid
+
+from fastapi import APIRouter, Depends, Query
 
 from config.dependencies import CommonHeaderProps, common_headers
 from props.user_props import (
@@ -36,3 +38,8 @@ def update_user_profile_api(
     return UserService.update_user(
         user_id=commons.user_id, **user_data.dict(exclude_none=True)
     )
+
+
+@router.get("/")
+def get_users_by_id_api(user_ids: list[uuid.UUID] = Query(None)) -> list[UserObject]:
+    return list(map(UserService.get_user, user_ids)) if user_ids else []
